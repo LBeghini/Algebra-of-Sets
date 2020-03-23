@@ -2,16 +2,26 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct Node {
+    int value;
+    struct Node * next;
+} Node;
+
+typedef struct ListOfSetHeads {
+    char name;
+    struct Node * head;
+    struct ListOfSetHeads * next;
+} ListOfSetHeads;
+
 int main()
 {
     char ch;
     FILE *fp;
     int comma = 0;
 
-    fp = fopen("C:\\Users\\Lavinia\\CLionProjects\\discrete\\set.txt", "r");
+    fp = fopen("C:\\Users\\Lavinia\\Documents\\GitHub\\set-algebra\\set.txt", "r");
 
-    if (fp == NULL)
-    {
+    if (fp == NULL){
         perror("Error while opening the file.\n");
         exit(EXIT_FAILURE);
     }
