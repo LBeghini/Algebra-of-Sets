@@ -84,3 +84,26 @@ void print_lines(Line *head){
     printf("%s",head->value);
     print_lines(head->next);
 }
+
+void remove_spaces_from_lines(Line *head){
+    if(head){
+        remove_spaces(head->value);
+        remove_spaces_from_lines(head->next);
+    }
+
+    return;
+}
+
+void remove_spaces(char * s){
+    char *copy = s;
+    char *temp = s;
+
+    while(*copy){
+        if(*copy != ' '){
+            *temp++ = *copy;
+        }
+        copy++;
+    }
+
+    *temp = 0;
+}

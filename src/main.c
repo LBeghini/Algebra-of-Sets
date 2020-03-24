@@ -11,7 +11,8 @@ int main()
     char * file = parse(PATH);
     Line *head = split(file);
     print_lines(head);
-
+    remove_spaces_from_lines(head);
+    print_lines(head);
 
     return 0;
 }
