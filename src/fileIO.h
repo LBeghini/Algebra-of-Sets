@@ -13,9 +13,10 @@ typedef struct Line{
 } Line;
 
 char *parse(char *path);
-Line * split(char * strFile);
+Line * split(char * str, char *separator);
 void print_lines(Line *head);
 void remove_spaces_from_lines(Line *head);
 void remove_spaces(char * s);
+Line *process_input(char *path);
 
 #endif //DISCRETE_FILEIO_H

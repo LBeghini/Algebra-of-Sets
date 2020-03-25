@@ -44,8 +44,7 @@ char *parse(char *path) {
     return file;
 }
 
-Line * split(char * strFile){
-    const char s[2] = "\n";
+Line * split(char * str, char * separator){
     char *token;
 
     Line *current;
@@ -58,12 +57,12 @@ Line * split(char * strFile){
 
     current = head;
 
-    token = strtok(strFile, s);
+    token = strtok(str, separator);
 
     while(token!= NULL){
         current->value = token;
 
-        token = strtok(NULL, s);
+        token = strtok(NULL, separator);
 
         if(token != NULL){
             current->next = (Line*) malloc(sizeof(Line));
@@ -106,4 +105,11 @@ void remove_spaces(char * s){
     }
 
     *temp = 0;
+}
+
+Line *process_input(char *path){
+    char * file = parse(path);
+    Line *head = split(file, "\n");
+    remove_spaces_from_lines(head);
+    return head;
 }
