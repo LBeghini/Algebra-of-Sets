@@ -71,6 +71,9 @@ Line * split(char * str, char * separator){
         }
     }
 
+    if(head->next == NULL && head->value == NULL){
+        return NULL;
+    }
 
     return head;
 
