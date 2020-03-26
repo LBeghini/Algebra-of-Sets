@@ -110,6 +110,24 @@ void remove_spaces(char * s){
     *temp = 0;
 }
 
+Line* get_numbers(char *s){
+    char *aux = (char*) malloc(sizeof(char) * strlen(s));
+    strcpy(aux, s);
+
+    char *copy = aux;
+    char *tmp = aux;
+
+    while (*copy){
+        if((*copy >= '0' && *copy <= '9')||(*copy == ',')||(*copy == '-')){
+            *tmp++ = *copy;
+        }
+        copy++;
+    }
+    *tmp = 0;
+
+    return split(aux, ",");
+}
+
 Line *process_input(char *path){
     char * file = parse(path);
     Line *head = split(file, "\n");
