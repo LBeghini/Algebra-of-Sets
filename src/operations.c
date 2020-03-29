@@ -185,6 +185,18 @@ int check_existing_operands(Element *listOfElements, Set *listOfSets, char *str)
     }
     return 1;
 }
+
+Set * find_set(char * value, Set * listOfSets){
+    Set *current = listOfSets;
+
+    while(current){
+        if(current->name == value){
+            return current;
+        }
+        current = current->next;
+    }
+}
+
 Set * set_union(Set *A, Set *B){
     Set *result = (Set*) malloc(sizeof(Set));
     result->head = A->head;
