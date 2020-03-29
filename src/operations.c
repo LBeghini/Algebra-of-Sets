@@ -302,3 +302,11 @@ int exist_value(Node *A, int value){
 
     return 0;
 }
+
+int belongs_to(Element *a, Set *A){
+    if(exist_value(A->head, a->value)){
+        return 1;
+    }
+
+    return 0;
+}

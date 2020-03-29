@@ -20,17 +20,20 @@ int main()
 
     char * teste = "AuB";
 
-    if(check_existing_operands(listOfElements, listOfSets, teste)){
-        printf("exists");
-    }else{
-        printf("dont exists");
-    }
+//    if(check_existing_operands(listOfElements, listOfSets, teste)){
+//        printf("exists");
+//    }else{
+//        printf("dont exists");
+//    }
 
     Tree *tree = generate_operation_tree(teste);
-    printf("CARAO");
 
     Set * result = set_subtraction(listOfSets, listOfSets->next);
-    printf("AAA");
+    if(belongs_to(listOfElements, listOfSets)){
+        printf("yes");
+    }else{
+        printf("no");
+    }
 
     return 0;
 }
