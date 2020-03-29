@@ -28,5 +28,6 @@ int check_existing_operands(Element *listOfElements, Set *listOfSets, char *str)
 int exist_value(Node *A, int value);
 Set * set_union(Set *A, Set *B);
 Set * set_intersection(Set *A, Set *B);
+Set * set_subtraction (Set *A, Set *B);
 
 #endif //DISCRETE_OPERATIONS_H

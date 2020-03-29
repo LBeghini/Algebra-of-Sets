@@ -29,7 +29,7 @@ int main()
     Tree *tree = generate_operation_tree(teste);
     printf("CARAO");
 
-    Set * result = set_intersection(listOfSets, listOfSets->next);
+    Set * result = set_subtraction(listOfSets, listOfSets->next);
     printf("AAA");
 
     return 0;
