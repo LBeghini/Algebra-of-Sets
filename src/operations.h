@@ -29,6 +29,5 @@ int exist_value(Node *A, int value);
 Set * set_union(Set *A, Set *B);
 Set * set_intersection(Set *A, Set *B);
 Set * set_subtraction (Set *A, Set *B);
-int belongs_to(Element *a, Set *A);
 
 #endif //DISCRETE_OPERATIONS_H
