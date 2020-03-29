@@ -25,5 +25,7 @@ int validate(const char *str);
 void fill_operation_tree(char *str, Tree *current);
 Tree *generate_operation_tree(char *str);
 int check_existing_operands(Element *listOfElements, Set *listOfSets, char *str);
+int exist_value(Node *A, int value);
+Set * set_union(Set *A, Set *B);
 
 #endif //DISCRETE_OPERATIONS_H

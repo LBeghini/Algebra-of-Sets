@@ -3,6 +3,7 @@
 //
 
 #include "operations.h"
+#include "set.h"
 
 int exists(char *str, char *target) {
     for (int i = 0; i < strlen(str); ++i) {
@@ -183,4 +184,44 @@ int check_existing_operands(Element *listOfElements, Set *listOfSets, char *str)
         }
     }
     return 1;
+}
+Set * set_union(Set *A, Set *B){
+    Set *result = (Set*) malloc(sizeof(Set));
+    result->head = A->head;
+    result->name = NULL;
+    result->next = NULL;
+    Node *head = result->head;
+    Node *current = B->head;
+
+    while (result->head && result->head->next){
+        result->head = result->head->next;
+    }
+
+    while(current){
+        if(!exist_value(head, current->value)){
+            result->head->next = malloc(sizeof(Node));
+            result->head =result->head->next;
+            result->head->value = current->value;
+            result->head->next = NULL;
+
+        }
+
+        current = current->next;
+
+    }
+    result->head = head;
+
+    return result;
+}
+int exist_value(Node *A, int value){
+    Node *current = NULL;
+    current = A;
+    while(current){
+        if(current->value == value){
+            return 1;
+        }
+        current = current->next;
+    }
+
+    return 0;
 }

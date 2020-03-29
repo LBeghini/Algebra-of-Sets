@@ -11,11 +11,11 @@ int main()
 
     Line *input =  process_input(PATH);
 
-    Set *listOfSetHeads;
+    Set *listOfSets;
     Element *listOfElements = NULL;
-    listOfSetHeads = (Set*) malloc(sizeof(Set));
+    listOfSets = (Set*) malloc(sizeof(Set));
 
-    listOfSetHeads = create_list_set(listOfSetHeads, input);
+    listOfSets = create_list_set(listOfSets, input);
     listOfElements = create_list_element(listOfElements, input);
 
     char * teste = "AuB";
