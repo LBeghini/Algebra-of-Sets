@@ -213,6 +213,38 @@ Set * set_union(Set *A, Set *B){
 
     return result;
 }
+Set * set_intersection(Set *A, Set *B){
+    Set * result = malloc(sizeof(Set));
+    Node *current = B->head;
+    result->head = NULL;
+    result->name = NULL;
+    result->next = NULL;
+    Node *head = NULL;
+
+    while(current){
+        if(exist_value(A->head, current->value)){
+            if(!head){
+                result->head = malloc(sizeof(Node));
+                result->head->next = NULL;
+                result->head->value = current->value;
+                head = result->head;
+                current = current->next;
+                continue;
+            }
+
+            result->head->next = malloc(sizeof(Node));
+            result->head = result->head->next;
+            result->head->next = NULL;
+            result->head->value = current->value;
+
+        }
+
+        current = current->next;
+    }
+    result->head = head;
+    return result;
+}
+
 int exist_value(Node *A, int value){
     Node *current = NULL;
     current = A;

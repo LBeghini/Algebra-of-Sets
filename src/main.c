@@ -20,7 +20,7 @@ int main()
 
     char * teste = "AuB";
 
-    if(check_existing_operands(listOfElements, listOfSetHeads, teste)){
+    if(check_existing_operands(listOfElements, listOfSets, teste)){
         printf("exists");
     }else{
         printf("dont exists");
@@ -29,6 +29,8 @@ int main()
     Tree *tree = generate_operation_tree(teste);
     printf("CARAO");
 
+    Set * result = set_intersection(listOfSets, listOfSets->next);
+    printf("AAA");
 
     return 0;
 }
