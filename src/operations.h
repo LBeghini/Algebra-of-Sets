@@ -29,5 +29,7 @@ int exist_value(Node *A, int value);
 Set * set_union(Set *A, Set *B);
 Set * set_intersection(Set *A, Set *B);
 Set * set_subtraction (Set *A, Set *B);
+int is_subset(Set *A, Set*B);
+int is_proper_subset(Set *A, Set *B);
 
 #endif //DISCRETE_OPERATIONS_H

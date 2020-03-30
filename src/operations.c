@@ -299,6 +299,40 @@ int exist_value(Node *A, int value){
         }
         current = current->next;
     }
-
     return 0;
+}
+
+
+int is_proper_subset(Set *A, Set *B){
+    //A is not equal to B
+    Node *current = A->head;
+    Node *aux = B->head;
+
+    while (current){
+        if(!exist_value(B->head, current->value)){
+            return 0;
+        }
+        current = current->next;
+        aux = aux->next;
+    }
+
+    if(!current && !aux){
+        return 0;
+    }
+
+    return 1;
+}
+
+int is_subset(Set *A, Set *B){
+    //A is a subset of B. set A is included in set B. A can be equal to B
+    Node *current = A->head;
+
+    while (current){
+        if(!exist_value(B->head, current->value)){
+            return 0;
+        }
+        current = current->next;
+    }
+
+    return 1;
 }
