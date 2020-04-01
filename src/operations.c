@@ -347,7 +347,7 @@ int is_subset(Set *A, Set *B) {
 Line *do_couple(char *x, char *y) {
     Line *couple =  (Line*) malloc(sizeof(Line));
     couple->next = NULL;
-    couple->value = (char*) malloc(sizeof(char));
+    couple->value = (char*) malloc(sizeof(char)*(strlen(x)+strlen(y)+4));
     sprintf(couple->value, "<%s,%s>", x, y);
     couple->next = NULL;
     return couple;

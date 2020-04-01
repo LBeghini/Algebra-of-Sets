@@ -50,13 +50,12 @@ int main()
 //        printf("proper subset? no\n");
 //    }
 
-    char * strTeste ="AxB";
+    char * strTeste ="AxBxCxD";
     printf("a");
     Tree *teste = generate_operation_tree(strTeste);
     //solve_operation_tree(teste);
-    strTeste = realloc(strTeste, 30);
     printf("a");
-    printf("%s",solve_operation_tree(teste));
+    undo_cartesian_product(solve_operation_tree(strTeste));
     printf("teste");
     return 0;
 
