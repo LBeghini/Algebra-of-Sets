@@ -533,13 +533,14 @@ char * cartesian_to_string(Line *A){
         strcat(result, ", ");
         current = current->next;
     }
-    strcpy((result+strlen(result)-2), "}\0");
+    strcpy((result+(int)strlen(result)-2), "}\0");
     return result;
 }
 
 Set * undo_cartesian_product(char* cartesian){
     int countSets = 0;
     int i, j;
+    printf("%d", strlen(cartesian));
     Set *head = NULL;
     head = (Set*) malloc(sizeof(Set));
 
