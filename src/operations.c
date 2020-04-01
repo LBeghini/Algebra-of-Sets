@@ -526,9 +526,10 @@ char * set_to_string(Set *A){
 
 char * cartesian_to_string(Line *A){
     Line *current = A;
-    char * result = (char*) malloc(sizeof(char));
+    char * result = (char*) malloc(sizeof(char) + 2) ;
     strcpy(result, "{");
     while(current){
+        result = realloc(result, sizeof(char) * ((int)strlen(result) + (int)strlen(current->value) + 3 ));
         strcat(result, current->value);
         strcat(result, ", ");
         current = current->next;
@@ -540,7 +541,6 @@ char * cartesian_to_string(Line *A){
 Set * undo_cartesian_product(char* cartesian){
     int countSets = 0;
     int i, j;
-    printf("%d", strlen(cartesian));
     Set *head = NULL;
     head = (Set*) malloc(sizeof(Set));
 
