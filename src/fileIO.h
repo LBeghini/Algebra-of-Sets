@@ -20,4 +20,5 @@ void remove_spaces(char * s);
 Line *process_input(char *path);
 Line* get_numbers(char *s);
 
+
 #endif //DISCRETE_FILEIO_H
