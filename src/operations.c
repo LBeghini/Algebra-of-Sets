@@ -118,7 +118,7 @@
 
 void fill_operation_tree(char *str, Tree *current) {
 
-    char *buff = (char *) malloc(sizeof(char) * strlen(str));
+    char *buff = (char *) malloc(sizeof(char) * (int)(strlen(str) +1) );
     strcpy(buff, str);
 
     if (strlen(buff) == 1) {
@@ -147,7 +147,7 @@ void fill_operation_tree(char *str, Tree *current) {
 
 Tree *generate_operation_tree(char *str) {
 
-    char *buff = (char *) malloc(sizeof(char) * strlen(str));
+    char *buff = (char *) malloc(sizeof(char) * (int) (strlen(str)+1));
     strcpy(buff, str);
     buff = strrev(buff);
 

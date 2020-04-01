@@ -111,7 +111,7 @@ void remove_spaces(char * s){
 }
 
 Line* get_numbers(char *s){
-    char *aux = (char*) malloc(sizeof(char) * strlen(s));
+    char *aux = (char*) malloc(sizeof(char) * (int)(strlen(s)+1));
     strcpy(aux, s);
 
     char *copy = aux;
