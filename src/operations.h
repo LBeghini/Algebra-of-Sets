@@ -41,6 +41,7 @@ Set* powerset(Set* head);
 void fill_powerset(Set* list, int element);
 char * powerset_to_string(Set *A);
 Set * undo_powerset(char* A);
+Set * string_to_set(char * str);
 
 
 #endif //DISCRETE_OPERATIONS_H

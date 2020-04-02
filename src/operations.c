@@ -573,3 +573,23 @@ Set * undo_powerset(char* A){
 
 }
 
+Set * string_to_set(char * str){
+    Set * result = (Set*) calloc(1, sizeof(Set));
+    Line * elements = get_numbers(str);
+    result->head = (Node*) calloc(1, sizeof(Node));
+    Node *current = result->head;
+
+    while(elements){
+        current->value = (int)strtol(elements->value, NULL, 10);
+        if(!elements->next){
+            break;
+        }
+        current->next = (Node*) calloc(1, sizeof(Node));
+        current = current->next;
+        elements = elements->next;
+    }
+
+    return result;
+
+}
+
