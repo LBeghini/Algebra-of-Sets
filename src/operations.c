@@ -468,8 +468,6 @@ Set * undo_cartesian_product(char* cartesian){
                 currentNode = currentNode->next;
                 currentNode->next = NULL;
                 currentNode->value = (int) strtol(numbers->value, NULL, 10 );
-            }else{
-                break;
             }
 
             i=0;
