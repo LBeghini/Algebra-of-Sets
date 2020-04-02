@@ -98,6 +98,7 @@ Set *unite(Set *A, Set *B) {
     Set *result = (Set *) malloc(sizeof(Set));
     result->head = A->head;
     result->next = NULL;
+    result->next = NULL;
     Node *head = result->head;
     Node *current = B->head;
 
@@ -265,15 +266,15 @@ Line *set_to_line(Set *A) {
 
 char * solve_operation_tree(Tree *tree){
     if(strcmp(tree->value, "+") == 0){
-        return set_to_string(unite(find_set_in_tree(tree->left), find_set_in_tree(tree->right)));
+        return set_to_string(unite(find_set_in_tree(tree->right), find_set_in_tree(tree->left)));
     }
 
     if(strcmp(tree->value, "*") == 0){
-        return set_to_string(intersect(find_set_in_tree(tree->left), find_set_in_tree(tree->right)));
+        return set_to_string(intersect(find_set_in_tree(tree->right), find_set_in_tree(tree->left)));
     }
 
     if(strcmp(tree->value, "-") == 0){
-        return set_to_string(subtract(find_set_in_tree(tree->left), find_set_in_tree(tree->right)));
+        return set_to_string(subtract(find_set_in_tree(tree->right), find_set_in_tree(tree->left)));
     }
 
     if(strcmp(tree->value, "<") == 0){
@@ -292,14 +293,14 @@ char * solve_operation_tree(Tree *tree){
     }
 
     if(strcmp(tree->value, "[") == 0){
-        if(is_proper_subset(find_set_in_tree(tree->left), find_set_in_tree(tree->right))){
+        if(is_proper_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
             return "true";
         }
         return "false";
     }
 
     if(strcmp(tree->value, "]") == 0){
-        if(!is_proper_subset(find_set_in_tree(tree->left), find_set_in_tree(tree->right))){
+        if(!is_proper_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
             return "true";
         }
 
@@ -307,7 +308,7 @@ char * solve_operation_tree(Tree *tree){
     }
 
     if(strcmp(tree->value, "(") == 0){
-        if(is_subset(find_set_in_tree(tree->left), find_set_in_tree(tree->right))){
+        if(is_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
             return "true";
         }
 
@@ -315,7 +316,7 @@ char * solve_operation_tree(Tree *tree){
     }
 
     if(strcmp(tree->value, ")") == 0){
-        if(!is_subset(find_set_in_tree(tree->left), find_set_in_tree(tree->right))){
+        if(!is_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
             return "true";
         }
 
@@ -399,6 +400,7 @@ Set *find_set_in_tree(Tree *tree) {
 
     while (current) {
         if (strchr(tree->value, current->name)){
+            current->next = NULL;
             return current;
         }
         current = current->next;

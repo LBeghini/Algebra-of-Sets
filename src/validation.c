@@ -8,15 +8,10 @@
 
 int validate(char *str) {
     if (is_odd((int)strlen(str)) && (int)strlen(str) > 1) {
-        printf("odd > 0\n");
         if(check_operators(str)){
-            printf("operators fine\n");
             if(check_operands(str)){
-                printf("operands fine\n");
                 if(belongs_subsets_quantities(str)){
-                    printf("only 1 belongs or 1 subset\n");
                     if(check_belongs(str)){
-                        printf("belongs in right position\n");
                         return 1;
                     }
                 }
@@ -96,6 +91,9 @@ int belongs_subsets_quantities(char *str){
 int check_belongs(char *str){
     if(strpbrk(str, "<>")){
         if(*(str+1)!=*strpbrk(str, "<>")){
+            return 0;
+        }
+        if(!contains_in_elements(*(str))){
             return 0;
         }
     }
