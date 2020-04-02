@@ -325,6 +325,12 @@ char * solve_operation_tree(Tree *tree){
     if(strcmp(tree->value, "x") == 0) {
         return cartesian_to_string(solve_cartesian_operation_tree(tree));
     }
+
+    if(find_set_in_tree(tree)){
+        return set_to_string(find_set_in_tree(tree));
+    }
+
+    return NULL;
 }
 
 Line *solve_cartesian_operation_tree(Tree *tree){

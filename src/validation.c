@@ -8,22 +8,16 @@
 
 int validate(char *str) {
     if (is_odd((int)strlen(str)) && (int)strlen(str) > 1) {
-        printf("odd > 0\n");
         if(check_operators(str)){
-            printf("operators fine\n");
             if(check_operands(str)){
-                printf("operands fine\n");
                 if(belongs_subsets_quantities(str)){
-                    printf("only 1 belongs or 1 subset\n");
                     if(check_belongs(str)){
-                        printf("belongs in right position\n");
                         return 1;
                     }
                 }
             }
         }
     }else if(is_powerset(str)){
-        printf("is power set");
         return 1;
     }
     return 0;
