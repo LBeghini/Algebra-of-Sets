@@ -16,16 +16,13 @@ void process_nodes(Node *current, Line *charNumber) {
         current->next = NULL;
         if (charNumber->next) {
             Node *head;
-            head = (Node *) malloc(sizeof(Node));
-            head->next = NULL;
-            head->value = NULL;
+            head = (Node *) calloc(1, sizeof(Node));
             current->next = head;
         }
 
         current->value = (int) strtol(charNumber->value, NULL, 10);
         process_nodes(current->next, charNumber->next);
     }
-    return;
 }
 
 Set *create_list_set(Set *head, Line *input) {
@@ -62,4 +59,41 @@ Element *create_list_element(Element *head, Line *input){
         head = create_list_element(head, input->next);
     }
     return head;
+}
+
+Set * copy_of_set(Set * A){
+    Set * current = A;
+    Set * head = NULL;
+    while(current){
+        Set * copy = (Set*) calloc(1, sizeof(Set));
+        if(!head){
+            head = copy;
+        }
+        copy->name = current->name;
+        copy->head = copy_of_node(current->head);
+
+        if(!current->next){
+            break;
+        }
+
+        copy->next = (Set*) calloc(1, sizeof(Set));
+        copy = copy->next;
+        current = current->next;
+    }
+
+}
+
+Node * copy_of_node(Node *A){
+    Node * current = A;
+    Node * head = NULL;
+    while(current){
+        Node * copy = (Node*) calloc(1, sizeof(Node));
+        copy->value = current->value;
+        if(!current->next){
+            break;
+        }
+        copy->next = (Node*) calloc(1, sizeof(Node));
+        copy = copy->next;
+        current = current->next;
+    }
 }

@@ -5,6 +5,8 @@
 #ifndef DISCRETE_GLOBAL_H
 #define DISCRETE_GLOBAL_H
 
+#include "set.h"
+#define OPERANDS "+*x<>-[(])"
 
 Set *listOfSets;
 Element *listOfElements;

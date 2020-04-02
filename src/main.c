@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "fileIO.h"
 #include "operations.h"
+#include "validation.h"
 #define PATH "C:\\Users\\Lavinia\\Documents\\GitHub\\set-algebra\\set.txt"
 
 
@@ -50,11 +51,12 @@ int main()
 //        printf("proper subset? no\n");
 //    }
 
-    char * strTeste ="AxBxC";
-    Tree *teste = generate_operation_tree(strTeste);
-    char * t = solve_operation_tree(teste) ;
-    undo_cartesian_product(t);
-    printf("%s\n", set_to_string(undo_cartesian_product(solve_operation_tree(teste))->next));
+    if(validate("P(A+B)")){
+        printf("true");
+    }else{
+        printf("false");
+    }
+
     return 0;
 
 

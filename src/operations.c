@@ -5,117 +5,6 @@
 #include "operations.h"
 #include "set.h"
 
-//
-//int validate(const char *str) {
-//    if (is_odd(strlen(str)) && strlen(str) > 1) {
-//        if (check_c_and_e(str)) {
-//            if (check_operators(str)) {
-//                return 1;
-//            }
-//        }
-//    }
-//    return 0;
-//}
-//
-//int contains_in_element(Element *current, char *target) {
-//    while (current) {
-//        if ((char *) current->name == target) {
-//            return 1;
-//        }
-//        current = current->next;
-//    }
-//    return 0;
-//}
-//
-//int contains_in_set(Set *current, char *target) {
-//    while (current) {
-//        if (current->name == target) {
-//            return 1;
-//        }
-//        current = current->next;
-//    }
-//    return 0;
-//}
-//
-//int check_existing_operands(Element *listOfElements, Set *listOfSets, char *str) {
-//    char *buff = (char *) malloc(sizeof(char) * strlen(str));
-//    strcpy(buff, str);
-//
-//    for (int i = 0; i < strlen(buff); i += 2) {
-//        if (!(contains_in_element(listOfElements, (char *) *(buff + i)) || (contains_in_set(listOfSets,
-//                                                                                            (char *) *(buff + i))))) {
-//            return 0;
-//        }
-//    }
-//    return 1;
-//}
-//
-//int exists(char *str, char *target) {
-//    for (int i = 0; i < strlen(str); ++i) {
-//        if (*(str + i) == target) {
-//            return 1;
-//        }
-//    }
-//    return 0;
-//}
-//
-//int check_operators(char *str) {
-//    for (int i = 0; i < strlen(str); ++i) {
-//        if (i % 2) {
-//            if (!exists("euc", *(str + i))) {
-//                return 0;
-//            }
-//        } else {
-//            if (exists("euc", *(str + i))) {
-//                return 0;
-//            }
-//        }
-//    }
-//    return 1;
-//}
-//
-//int check_c_and_e(char *str) {
-//    int count_c = 0;
-//    int count_e = 0;
-//    for (int i = 0; i < strlen(str); ++i) {
-//        if ((*(str + i) == 'c')) {
-//            count_c++;
-//        }
-//        if ((*(str + i) == 'e')) {
-//            count_e++;
-//            if (i != 1) {
-//                return 0;
-//            }
-//        }
-//    }
-//
-//    if ((count_e + count_c) > 1) {
-//        return 0;
-//    }
-//
-//    return 1;
-//}
-//
-//int is_odd(int num) {
-//    return num % 2;
-//}
-//
-//int is_operator(char * str){
-//    if(strpbrk(str, "+*x<>-[(])")){
-//        return 1;
-//    }
-//
-//    return 0;
-//}
-
-
-
-
-
-
-
-
-
 void fill_operation_tree(char *str, Tree *current) {
 
     char *buff = (char *) malloc(sizeof(char) * (int)(strlen(str) +1) );
@@ -404,7 +293,7 @@ char * solve_operation_tree(Tree *tree){
 
     if(strcmp(tree->value, "[") == 0){
         if(is_proper_subset(find_set_in_tree(tree->left), find_set_in_tree(tree->right))){
-         return "true";
+            return "true";
         }
         return "false";
     }
@@ -488,7 +377,7 @@ int find_element_in_tree(Tree *tree){
 }
 
 Set *find_set_in_tree(Tree *tree) {
-    Set *current = listOfSets;
+    Set *current = copy_of_set(listOfSets);
 
     if(strcmp(tree->value, "+") == 0){
         return unite(find_set_in_tree(tree->left), find_set_in_tree(tree->right));
@@ -511,6 +400,9 @@ Set *find_set_in_tree(Tree *tree) {
 }
 
 char * set_to_string(Set *A){
+    if(!A->head){
+        return "{ }";
+    }
     Node *current = A->head;
     char * result = (char*) malloc(sizeof(char));
     strcpy(result, "{");
@@ -599,5 +491,79 @@ Set * undo_cartesian_product(char* cartesian){
 
 }
 
+Set* powerset(Set* head){
+    Node* current = head->head;
+    Set* powerset = (Set*)calloc(1, sizeof(Set));
 
+    while (current){
+        fill_powerset(powerset, current->value);
+        current = current->next;
+    }
+
+    return powerset;
+}
+
+void fill_powerset(Set* list, int element){
+    Set* current = list;
+    Set* head = NULL;
+    Set* control = (Set*) calloc(1, sizeof(Set));
+
+    while (current){
+        Set* tail = (Set*) calloc(1, sizeof(Set));
+
+        if(!head){
+            head = tail;
+        }
+
+        tail->head = (Node*)calloc(1,sizeof(Node));
+        tail->head->value = element;
+        tail->head->next = current->head;
+        control->next = tail;
+        control = control->next;
+
+        if(!current->next){
+            current->next = head;
+            break;
+        }
+
+        current = current->next;
+    }
+}
+
+char * powerset_to_string(Set *A){
+    Set * current = A;
+    char * result = (char*) calloc(2, sizeof(char));
+    strcpy(result, "{");
+    while(current){
+        result = realloc(result, sizeof(char) * ((int)strlen(result) + (int)strlen(set_to_string(current)) + 3 ));
+        strcat(result, set_to_string(current));
+        strcat(result, ", ");
+        current = current->next;
+    }
+    strcpy((result+(int)strlen(result)-2), "}\0");
+
+    return result;
+};
+
+Set * undo_powerset(char* A){
+    Set * result = (Set*) calloc(1, sizeof(Set));
+    Node *elements=  (Node*) calloc(1, sizeof(Node));
+    Line * numbers = get_numbers(strrev(A));
+    result->head = elements;
+
+    while(!belongs_to((int) strtol(numbers->value, NULL, 10),result->head)){
+        elements->value = (int) strtol(numbers->value, NULL, 10);
+
+        if(belongs_to((int) strtol(numbers->next->value, NULL, 10),result->head)){
+            break;
+        }
+        elements->next = (Node*) calloc(1, sizeof(Node));
+        elements = elements->next;
+        numbers = numbers->next;
+
+    }
+
+    return  result;
+
+}
 
