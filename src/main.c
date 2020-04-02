@@ -51,11 +51,12 @@ int main()
 //        printf("proper subset? no\n");
 //    }
 
-    if(validate("P(A+B)")){
-        printf("true");
-    }else{
-        printf("false");
-    }
+//    char *strTeste = "A+B";
+//    Tree *teste =generate_operation_tree(strTeste);
+//    printf("%s",solve_operation_tree(teste));
+
+    Set * copy = copy_of_set(listOfSets);
+    printf("a");
 
     return 0;
 

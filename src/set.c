@@ -63,32 +63,30 @@ Element *create_list_element(Element *head, Line *input){
 
 Set * copy_of_set(Set * A){
     Set * current = A;
-    Set * head = NULL;
+    Set * copy = (Set*) calloc(1, sizeof(Set));
+    Set * head = copy;
     while(current){
-        Set * copy = (Set*) calloc(1, sizeof(Set));
-        if(!head){
-            head = copy;
-        }
         copy->name = current->name;
         copy->head = copy_of_node(current->head);
 
         if(!current->next){
             break;
         }
-
         copy->next = (Set*) calloc(1, sizeof(Set));
         copy = copy->next;
         current = current->next;
     }
 
+    return head;
 }
 
 Node * copy_of_node(Node *A){
     Node * current = A;
-    Node * head = NULL;
+    Node *copy = (Node*) calloc(1, sizeof(Node));
+    Node * head = copy;
     while(current){
-        Node * copy = (Node*) calloc(1, sizeof(Node));
         copy->value = current->value;
+
         if(!current->next){
             break;
         }
@@ -96,4 +94,6 @@ Node * copy_of_node(Node *A){
         copy = copy->next;
         current = current->next;
     }
+
+    return head;
 }
