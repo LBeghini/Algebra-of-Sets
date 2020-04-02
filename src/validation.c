@@ -8,17 +8,20 @@
 
 int validate(char *str) {
     if (is_odd((int)strlen(str)) && (int)strlen(str) > 1) {
+        printf("odd > 0\n");
         if(check_operators(str)){
+            printf("operators fine\n");
             if(check_operands(str)){
+                printf("operands fine\n");
                 if(belongs_subsets_quantities(str)){
+                    printf("only 1 belongs or 1 subset\n");
                     if(check_belongs(str)){
+                        printf("belongs in right position\n");
                         return 1;
                     }
                 }
             }
         }
-    }else if(is_powerset(str)){
-        return 1;
     }
     return 0;
 }
@@ -39,12 +42,12 @@ int check_operands(char *str){
         char current = *(str+i);
         if (!is_odd(i)) {
             if(current>='A' && current<='Z'){
-                if(contains_in_sets(current) && i!=0){
+                if(contains_in_sets(current)){
                     return 1;
                 }
             }else if(current>='a' && current<='z'){
                 if(contains_in_elements(current) && i==0) {
-                    return 0;
+                    return 1;
                 }
             }
         }
@@ -116,7 +119,7 @@ int is_powerset(char *str){
     }
 
     char * inside = string_to_powerset(str);
-    if(is_odd((int)strlen(inside)) && (int)strlen(inside) >= 1){
+    if(is_odd((int)strlen(inside)) && (int)strlen(inside) > 1){
         for(int i=0; i<(int)strlen(inside); i++) {
             if(is_odd(i)) {
                 if(!strchr("+-*", *(inside+i))){
