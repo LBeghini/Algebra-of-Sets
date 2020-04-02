@@ -63,6 +63,7 @@ Tree *generate_operation_tree(char *str) {
     }else if (strpbrk(buff, "<>")){
         char *operand = (char*) malloc(sizeof(char));
         strcpy(operand, strpbrk(buff, "<>"));
+        *(operand+1) = '\0';
         result->value = operand;
         result->left = (Tree *) malloc(sizeof(Tree));
         result->right = (Tree *) malloc(sizeof(Tree));
@@ -278,7 +279,7 @@ char * solve_operation_tree(Tree *tree){
     }
 
     if(strcmp(tree->value, "<") == 0){
-        if(belongs_to(find_element_in_tree(tree), find_set_in_tree(tree)->head)){
+        if(belongs_to(find_element_in_tree(tree->right), find_set_in_tree(tree->left)->head)){
             return "true";
         }
 
@@ -286,7 +287,7 @@ char * solve_operation_tree(Tree *tree){
     }
 
     if(strcmp(tree->value, ">") == 0){
-        if(!belongs_to(find_element_in_tree(tree), find_set_in_tree(tree)->head)){
+        if(!belongs_to(find_element_in_tree(tree->right), find_set_in_tree(tree->left)->head)){
             return "true";
         }
         return "false";
