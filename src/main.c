@@ -4,7 +4,7 @@
 #include "fileIO.h"
 #include "operations.h"
 #include <conio.h>
-#define PATH "C:\\Users\\Lavinia\\Documents\\GitHub\\set-algebra\\set.txt"
+#define PATH "..\\set.txt"
 #include "validation.h"
 
 void clear_console(){
@@ -88,7 +88,7 @@ int main()
     listOfSets = create_list_set(listOfSets, input);
     listOfElements = create_list_element(listOfElements, input);
 
-
+#ifndef DEBUG
     clear_console();
     printf(" _____      _      ___  _            _               \n"
            "/  ___|    | |    / _ \\| |          | |              \n"
@@ -135,6 +135,8 @@ while (e != 'e'){
         printf("\nPRESS ANY KEY TO CONTINUE OR E TO EXIT");
         e = getch();
     }
+#endif
+
 
     return 0;
 
