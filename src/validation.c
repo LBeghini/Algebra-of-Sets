@@ -141,6 +141,13 @@ char * string_to_powerset(char* str){
     return result;
 }
 
+int is_cartesian(char* input){
+    if(!strchr(input, 'x')){
+        return 0;
+    }
+    return 1;
+}
+
 
 
 
