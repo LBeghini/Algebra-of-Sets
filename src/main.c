@@ -132,7 +132,7 @@ while (e != 'e'){
         char* ops = (char*)calloc(10, sizeof(char));
         gets(ops);
         solve(ops);
-        printf("\nPRESS ANY KEY TO CONTINUE OR E TO EXIT");
+        printf("\nPRESS ANY KEY TO CONTINUE OR e TO EXIT");
         e = getch();
     }
 #endif
