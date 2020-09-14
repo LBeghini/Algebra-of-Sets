@@ -33,5 +33,7 @@ void populate(Set *empty, Line *charNumbers);
 void process_nodes(Node *current, Line *charNumber);
 Node * copy_of_node(Node *A);
 Set * copy_of_set(Set * A);
+char * set_to_string(Set *A);
+Set * string_to_set(char * str);
 
 #endif //DISCRETE_SET_H

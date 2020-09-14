@@ -2,7 +2,10 @@
 // Created by Lavinia on 3/23/2020.
 //
 
+#include "operations.h"
 #include "set.h"
+#include "global.h"
+
 
 void populate(Set *empty, Line *charNumbers) {
     if (charNumbers) {
@@ -96,4 +99,41 @@ Node * copy_of_node(Node *A){
     }
 
     return head;
+}
+
+char * set_to_string(Set *A){
+    if(!A->head){
+        return "{ }";
+    }
+    Node *current = A->head;
+    char * result = (char*) malloc(sizeof(char));
+    strcpy(result, "{");
+    char * str = (char*) malloc(sizeof(char));
+    while(current){
+        sprintf(str, "%d, ", current->value);
+        strcat(result, str);
+        current = current->next;
+    }
+    strcpy((result+strlen(result)-2), "}\0");
+    return result;
+}
+
+Set * string_to_set(char * str){
+    Set * result = (Set*) calloc(1, sizeof(Set));
+    Line * elements = get_numbers(str);
+    result->head = (Node*) calloc(1, sizeof(Node));
+    Node *current = result->head;
+
+    while(elements){
+        current->value = (int)strtol(elements->value, NULL, 10);
+        if(!elements->next){
+            break;
+        }
+        current->next = (Node*) calloc(1, sizeof(Node));
+        current = current->next;
+        elements = elements->next;
+    }
+
+    return result;
+
 }

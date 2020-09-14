@@ -5,36 +5,7 @@
 #include "operations.h"
 #include "set.h"
 
-void fill_operation_tree(char *str, Tree *current) {
-
-    char *buff = (char *) malloc(sizeof(char) * (int)(strlen(str) +1) );
-    strcpy(buff, str);
-
-    if (strlen(buff) == 1) {
-        current->left = NULL;
-        current->right = NULL;
-        current->value = buff;
-        return;
-    }
-
-    char * firstHalf = buff;
-    char * secondHalf;
-
-    char *operand = (char*) malloc(sizeof(char));
-    strcpy(operand, strpbrk(buff, OPERANDS));
-    *(operand+1) = '\0';
-    current->value = operand;
-    current->left = (Tree *) malloc(sizeof(Tree));
-    current->right = (Tree *) malloc(sizeof(Tree));
-    secondHalf = strchr(buff, *operand);
-    *secondHalf = '\0';
-    secondHalf = secondHalf+1;
-    fill_operation_tree(firstHalf, current->left);
-    fill_operation_tree(secondHalf, current->right);
-
-}
-
-Tree *generate_operation_tree(char *str) {
+Tree *prepare_operation_tree(char *str) {
 
     char *buff = (char *) malloc(sizeof(char) * (int) (strlen(str)+1));
     strcpy(buff, str);
@@ -93,6 +64,190 @@ Tree *generate_operation_tree(char *str) {
     }
 
     return result;
+}
+
+void fill_operation_tree(char *str, Tree *current) {
+
+    char *buff = (char *) malloc(sizeof(char) * (int)(strlen(str) +1) );
+    strcpy(buff, str);
+
+    if (strlen(buff) == 1) {
+        current->left = NULL;
+        current->right = NULL;
+        current->value = buff;
+        return;
+    }
+
+    char * firstHalf = buff;
+    char * secondHalf;
+
+    char *operand = (char*) malloc(sizeof(char));
+    strcpy(operand, strpbrk(buff, OPERANDS));
+    *(operand+1) = '\0';
+    current->value = operand;
+    current->left = (Tree *) malloc(sizeof(Tree));
+    current->right = (Tree *) malloc(sizeof(Tree));
+    secondHalf = strchr(buff, *operand);
+    *secondHalf = '\0';
+    secondHalf = secondHalf+1;
+    fill_operation_tree(firstHalf, current->left);
+    fill_operation_tree(secondHalf, current->right);
+
+}
+
+char * solve_operation_tree(Tree *tree){
+    if(strcmp(tree->value, "+") == 0){
+        return set_to_string(unite(find_set_in_tree(tree->right), find_set_in_tree(tree->left)));
+    }
+
+    if(strcmp(tree->value, "*") == 0){
+        return set_to_string(intersect(find_set_in_tree(tree->right), find_set_in_tree(tree->left)));
+    }
+
+    if(strcmp(tree->value, "-") == 0){
+        return set_to_string(subtract(find_set_in_tree(tree->right), find_set_in_tree(tree->left)));
+    }
+
+    if(strcmp(tree->value, "<") == 0){
+        if(belongs_to(find_element_in_tree(tree->right), find_set_in_tree(tree->left)->head)){
+            return "true";
+        }
+
+        return "false";
+    }
+
+    if(strcmp(tree->value, ">") == 0){
+        if(!belongs_to(find_element_in_tree(tree->right), find_set_in_tree(tree->left)->head)){
+            return "true";
+        }
+        return "false";
+    }
+
+    if(strcmp(tree->value, "[") == 0){
+        if(is_proper_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
+            return "true";
+        }
+        return "false";
+    }
+
+    if(strcmp(tree->value, "]") == 0){
+        if(!is_proper_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
+            return "true";
+        }
+
+        return "false";
+    }
+
+    if(strcmp(tree->value, "(") == 0){
+        if(is_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
+            return "true";
+        }
+
+        return "false";
+    }
+
+    if(strcmp(tree->value, ")") == 0){
+        if(!is_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
+            return "true";
+        }
+
+        return "false";
+    }
+
+    if(strcmp(tree->value, "x") == 0) {
+        return cartesian_to_string(solve_cartesian_operation_tree(tree));
+    }
+
+    if(find_set_in_tree(tree)){
+        return set_to_string(find_set_in_tree(tree));
+    }
+
+    return NULL;
+}
+
+int find_element_in_tree(Tree *tree){
+    Element *current = listOfElements;
+
+    while (current) {
+        if (strchr(tree->value, current->name)){
+            return current->value;
+        }
+        current = current->next;
+    }
+}
+
+Set *find_set_in_tree(Tree *tree) {
+    Set *current = copy_of_set(listOfSets);
+
+    if(strcmp(tree->value, "+") == 0){
+        return unite(find_set_in_tree(tree->left), find_set_in_tree(tree->right));
+    }
+
+    if(strcmp(tree->value, "*") == 0){
+        return intersect(find_set_in_tree(tree->left), find_set_in_tree(tree->right));
+    }
+
+    if(strcmp(tree->value, "-") == 0){
+        return subtract(find_set_in_tree(tree->left), find_set_in_tree(tree->right));
+    }
+
+    while (current) {
+        if (strchr(tree->value, current->name)){
+            current->next = NULL;
+            return current;
+        }
+        current = current->next;
+    }
+}
+
+int belongs_to(int value, Node *A) {
+    if(!A){
+        return 0;
+    }
+
+    Node *current = NULL;
+    current = A;
+    while (current) {
+        if (current->value == value) {
+            return 1;
+        }
+        current = current->next;
+    }
+    return 0;
+}
+
+int is_proper_subset(Set *A, Set *B) {
+    //A is not equal to B
+    Node *current = A->head;
+    Node *aux = B->head;
+
+    while (current) {
+        if (!belongs_to(current->value, B->head)) {
+            return 0;
+        }
+        current = current->next;
+        aux = aux->next;
+    }
+
+    if (!current && !aux) {
+        return 0;
+    }
+
+    return 1;
+}
+
+int is_subset(Set *A, Set *B) {
+    //A is a subset of B. set A is included in set B. A can be equal to B
+    Node *current = A->head;
+
+    while (current) {
+        if (!belongs_to(current->value, B->head)) {
+            return 0;
+        }
+        current = current->next;
+    }
+
+    return 1;
 }
 
 Set *unite(Set *A, Set *B) {
@@ -185,63 +340,72 @@ Set *intersect(Set *A, Set *B) {
     return result;
 }
 
-int belongs_to(int value, Node *A) {
-    if(!A){
-        return 0;
-    }
+Set* powerset(Set* head){
+    Node* current = head->head;
+    Set* powerset = (Set*)calloc(1, sizeof(Set));
 
-    Node *current = NULL;
-    current = A;
-    while (current) {
-        if (current->value == value) {
-            return 1;
-        }
-        current = current->next;
-    }
-    return 0;
-}
-
-int is_proper_subset(Set *A, Set *B) {
-    //A is not equal to B
-    Node *current = A->head;
-    Node *aux = B->head;
-
-    while (current) {
-        if (!belongs_to(current->value, B->head)) {
-            return 0;
-        }
-        current = current->next;
-        aux = aux->next;
-    }
-
-    if (!current && !aux) {
-        return 0;
-    }
-
-    return 1;
-}
-
-int is_subset(Set *A, Set *B) {
-    //A is a subset of B. set A is included in set B. A can be equal to B
-    Node *current = A->head;
-
-    while (current) {
-        if (!belongs_to(current->value, B->head)) {
-            return 0;
-        }
+    while (current){
+        fill_powerset(powerset, current->value);
         current = current->next;
     }
 
-    return 1;
+    return powerset;
 }
 
-Line *do_couple(char *x, char *y) {
-    Line *couple =  (Line*) malloc(sizeof(Line));
-    couple->next = NULL;
-    couple->value = (char*) malloc(sizeof(char)*(strlen(x)+strlen(y)+4));
-    sprintf(couple->value, "<%s,%s>", x, y);
-    couple->next = NULL;
-    return couple;
+void fill_powerset(Set* list, int element){
+    Set* current = list;
+    Set* head = NULL;
+    Set* control = (Set*) calloc(1, sizeof(Set));
+
+    while (current){
+        Set* tail = (Set*) calloc(1, sizeof(Set));
+
+        if(!head){
+            head = tail;
+        }
+
+        tail->head = (Node*)calloc(1,sizeof(Node));
+        tail->head->value = element;
+        tail->head->next = current->head;
+        control->next = tail;
+        control = control->next;
+
+        if(!current->next){
+            current->next = head;
+            break;
+        }
+
+        current = current->next;
+    }
+}
+
+Set * undo_powerset(char* A){
+    Set * result = (Set*) calloc(1, sizeof(Set));
+    Node *elements=  (Node*) calloc(1, sizeof(Node));
+    Line * numbers = get_numbers(strrev(A));
+    result->head = elements;
+
+    while(!belongs_to((int) strtol(numbers->value, NULL, 10),result->head)){
+        elements->value = (int) strtol(numbers->value, NULL, 10);
+
+        if(belongs_to((int) strtol(numbers->next->value, NULL, 10),result->head)){
+            break;
+        }
+        elements->next = (Node*) calloc(1, sizeof(Node));
+        elements = elements->next;
+        numbers = numbers->next;
+
+    }
+
+    return  result;
+
+}
+
+Line *solve_cartesian_operation_tree(Tree *tree){
+    if(strcmp(tree->left->value, "x") != 0){
+        return do_cartesian_product(set_to_line(find_set_in_tree(tree->left)), set_to_line(find_set_in_tree(tree->right)));
+    }
+    return do_cartesian_product(solve_cartesian_operation_tree(tree->left), set_to_line(find_set_in_tree(tree->right)));
 }
 
 Line *set_to_line(Set *A) {
@@ -263,83 +427,6 @@ Line *set_to_line(Set *A) {
     }
 
     return head;
-}
-
-char * solve_operation_tree(Tree *tree){
-    if(strcmp(tree->value, "+") == 0){
-        return set_to_string(unite(find_set_in_tree(tree->right), find_set_in_tree(tree->left)));
-    }
-
-    if(strcmp(tree->value, "*") == 0){
-        return set_to_string(intersect(find_set_in_tree(tree->right), find_set_in_tree(tree->left)));
-    }
-
-    if(strcmp(tree->value, "-") == 0){
-        return set_to_string(subtract(find_set_in_tree(tree->right), find_set_in_tree(tree->left)));
-    }
-
-    if(strcmp(tree->value, "<") == 0){
-        if(belongs_to(find_element_in_tree(tree->right), find_set_in_tree(tree->left)->head)){
-            return "true";
-        }
-
-        return "false";
-    }
-
-    if(strcmp(tree->value, ">") == 0){
-        if(!belongs_to(find_element_in_tree(tree->right), find_set_in_tree(tree->left)->head)){
-            return "true";
-        }
-        return "false";
-    }
-
-    if(strcmp(tree->value, "[") == 0){
-        if(is_proper_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
-            return "true";
-        }
-        return "false";
-    }
-
-    if(strcmp(tree->value, "]") == 0){
-        if(!is_proper_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
-            return "true";
-        }
-
-        return "false";
-    }
-
-    if(strcmp(tree->value, "(") == 0){
-        if(is_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
-            return "true";
-        }
-
-        return "false";
-    }
-
-    if(strcmp(tree->value, ")") == 0){
-        if(!is_subset(find_set_in_tree(tree->right), find_set_in_tree(tree->left))){
-            return "true";
-        }
-
-        return "false";
-    }
-
-    if(strcmp(tree->value, "x") == 0) {
-        return cartesian_to_string(solve_cartesian_operation_tree(tree));
-    }
-
-    if(find_set_in_tree(tree)){
-        return set_to_string(find_set_in_tree(tree));
-    }
-
-    return NULL;
-}
-
-Line *solve_cartesian_operation_tree(Tree *tree){
-    if(strcmp(tree->left->value, "x") != 0){
-        return do_cartesian_product(set_to_line(find_set_in_tree(tree->left)), set_to_line(find_set_in_tree(tree->right)));
-    }
-    return do_cartesian_product(solve_cartesian_operation_tree(tree->left), set_to_line(find_set_in_tree(tree->right)));
 }
 
 Line *do_cartesian_product(Line *A, Line *B) {
@@ -373,70 +460,13 @@ Line *do_cartesian_product(Line *A, Line *B) {
     return head;
 }
 
-int find_element_in_tree(Tree *tree){
-    Element *current = listOfElements;
-
-    while (current) {
-        if (strchr(tree->value, current->name)){
-            return current->value;
-        }
-        current = current->next;
-    }
-}
-
-Set *find_set_in_tree(Tree *tree) {
-    Set *current = copy_of_set(listOfSets);
-
-    if(strcmp(tree->value, "+") == 0){
-        return unite(find_set_in_tree(tree->left), find_set_in_tree(tree->right));
-    }
-
-    if(strcmp(tree->value, "*") == 0){
-        return intersect(find_set_in_tree(tree->left), find_set_in_tree(tree->right));
-    }
-
-    if(strcmp(tree->value, "-") == 0){
-        return subtract(find_set_in_tree(tree->left), find_set_in_tree(tree->right));
-    }
-
-    while (current) {
-        if (strchr(tree->value, current->name)){
-            current->next = NULL;
-            return current;
-        }
-        current = current->next;
-    }
-}
-
-char * set_to_string(Set *A){
-    if(!A->head){
-        return "{ }";
-    }
-    Node *current = A->head;
-    char * result = (char*) malloc(sizeof(char));
-    strcpy(result, "{");
-    char * str = (char*) malloc(sizeof(char));
-    while(current){
-        sprintf(str, "%d, ", current->value);
-        strcat(result, str);
-        current = current->next;
-    }
-    strcpy((result+strlen(result)-2), "}\0");
-    return result;
-}
-
-char * cartesian_to_string(Line *A){
-    Line *current = A;
-    char * result = (char*) malloc(sizeof(char) + 2) ;
-    strcpy(result, "{");
-    while(current){
-        result = realloc(result, sizeof(char) * ((int)strlen(result) + (int)strlen(current->value) + 3 ));
-        strcat(result, current->value);
-        strcat(result, ", ");
-        current = current->next;
-    }
-    strcpy((result+(int)strlen(result)-2), "}\0");
-    return result;
+Line *do_couple(char *x, char *y) {
+    Line *couple =  (Line*) malloc(sizeof(Line));
+    couple->next = NULL;
+    couple->value = (char*) malloc(sizeof(char)*(strlen(x)+strlen(y)+4));
+    sprintf(couple->value, "<%s,%s>", x, y);
+    couple->next = NULL;
+    return couple;
 }
 
 Set * undo_cartesian_product(char* cartesian){
@@ -498,43 +528,18 @@ Set * undo_cartesian_product(char* cartesian){
 
 }
 
-Set* powerset(Set* head){
-    Node* current = head->head;
-    Set* powerset = (Set*)calloc(1, sizeof(Set));
-
-    while (current){
-        fill_powerset(powerset, current->value);
+char * cartesian_to_string(Line *A){
+    Line *current = A;
+    char * result = (char*) malloc(sizeof(char) + 2) ;
+    strcpy(result, "{");
+    while(current){
+        result = realloc(result, sizeof(char) * ((int)strlen(result) + (int)strlen(current->value) + 3 ));
+        strcat(result, current->value);
+        strcat(result, ", ");
         current = current->next;
     }
-
-    return powerset;
-}
-
-void fill_powerset(Set* list, int element){
-    Set* current = list;
-    Set* head = NULL;
-    Set* control = (Set*) calloc(1, sizeof(Set));
-
-    while (current){
-        Set* tail = (Set*) calloc(1, sizeof(Set));
-
-        if(!head){
-            head = tail;
-        }
-
-        tail->head = (Node*)calloc(1,sizeof(Node));
-        tail->head->value = element;
-        tail->head->next = current->head;
-        control->next = tail;
-        control = control->next;
-
-        if(!current->next){
-            current->next = head;
-            break;
-        }
-
-        current = current->next;
-    }
+    strcpy((result+(int)strlen(result)-2), "}\0");
+    return result;
 }
 
 char * powerset_to_string(Set *A){
@@ -551,46 +556,4 @@ char * powerset_to_string(Set *A){
 
     return result;
 };
-
-Set * undo_powerset(char* A){
-    Set * result = (Set*) calloc(1, sizeof(Set));
-    Node *elements=  (Node*) calloc(1, sizeof(Node));
-    Line * numbers = get_numbers(strrev(A));
-    result->head = elements;
-
-    while(!belongs_to((int) strtol(numbers->value, NULL, 10),result->head)){
-        elements->value = (int) strtol(numbers->value, NULL, 10);
-
-        if(belongs_to((int) strtol(numbers->next->value, NULL, 10),result->head)){
-            break;
-        }
-        elements->next = (Node*) calloc(1, sizeof(Node));
-        elements = elements->next;
-        numbers = numbers->next;
-
-    }
-
-    return  result;
-
-}
-
-Set * string_to_set(char * str){
-    Set * result = (Set*) calloc(1, sizeof(Set));
-    Line * elements = get_numbers(str);
-    result->head = (Node*) calloc(1, sizeof(Node));
-    Node *current = result->head;
-
-    while(elements){
-        current->value = (int)strtol(elements->value, NULL, 10);
-        if(!elements->next){
-            break;
-        }
-        current->next = (Node*) calloc(1, sizeof(Node));
-        current = current->next;
-        elements = elements->next;
-    }
-
-    return result;
-
-}
 

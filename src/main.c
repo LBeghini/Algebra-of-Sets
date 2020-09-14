@@ -43,9 +43,11 @@ void print_elements(Element* element){
         element = element->next;
     }
 }
+
 void solve(char* input){
+    remove_spaces(input);
     if(validate(input)){
-        char* solution = solve_operation_tree(generate_operation_tree(input));
+        char* solution = solve_operation_tree(prepare_operation_tree(input));
         printf("------------------------------------------------\n");
         printf("SOLUTION: %s\n", solution);
         printf("------------------------------------------------\n");
@@ -64,10 +66,19 @@ void solve(char* input){
             }
         }
     } else if(is_powerset(input)){
-        char* solution = powerset_to_string(powerset(string_to_set(solve_operation_tree(generate_operation_tree(string_to_powerset(input))))));
+        char* solution = powerset_to_string(powerset(string_to_set(solve_operation_tree(
+                prepare_operation_tree(string_to_powerset(input))))));
         printf("------------------------------------------------\n");
         printf("SOLUTION: %s\n", solution);
         printf("------------------------------------------------\n");
+        printf("Would you like to reverse it?");
+        printf("(y/n)");
+        char r;
+        r = getch();
+        if(r == 'y'){
+            Set* result = undo_powerset(solution);
+            printf("\n%s", set_to_string(result));
+        }
     } else{
         printf("------------------------------------------------\n");
         printf("ERROR: OPERATION NOT VALID\n");
@@ -90,14 +101,14 @@ int main()
 
 #ifndef DEBUG
     clear_console();
-    printf(" _____      _      ___  _            _               \n"
-           "/  ___|    | |    / _ \\| |          | |              \n"
-           "\\ `--.  ___| |_  / /_\\ \\ |  _  ___| |  _   _ \n"
-           " --. \\/ _ \\ __| |  _  | |/ _ |/ _ \\ '_ \\| '__/ _` |\n"
-           "/\\__/ /  / |_  | | | | | (_| |  / |_) | | | (_| |\n"
-           "\\____/ \\___|\\__| \\_| |_/_|\\__, |\\___|_./|_|  \\,_|\n"
-           "                           __/ |                     \n"
-           "                          |___/      ");
+    printf("   _____      _              _            _               \n"
+           "  / ____|    | |       /\\   | |          | |              \n"
+           " | (___   ___| |_     /  \\  | | __ _  ___| |__  _ __ __ _ \n"
+           "  \\___ \\ / _ \\ __|   / /\\ \\ | |/ _` |/ _ \\ '_ \\| '__/ _` |\n"
+           "  ____) |  __/ |_   / ____ \\| | (_| |  __/ |_) | | | (_| |\n"
+           " |_____/ \\___|\\__| /_/    \\_\\_|\\__, |\\___|_.__/|_|  \\__,_|\n"
+           "                                __/ |                     \n"
+           "                               |___/                      ");
 
 
     printf("\nPRESS ANY KEY TO START");
