@@ -37,12 +37,12 @@ int check_operands(char *str){
         char current = *(str+i);
         if (!is_odd(i)) {
             if(current>='A' && current<='Z'){
-                if(contains_in_sets(current)){
-                    return 1;
+                if(!contains_in_sets(current)){
+                    return 0;
                 }
             }else if(current>='a' && current<='z'){
-                if(contains_in_elements(current) && i==0) {
-                    return 1;
+                if(!contains_in_elements(current) && i==0) {
+                    return 0;
                 }
             }
         }
