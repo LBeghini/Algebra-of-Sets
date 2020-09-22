@@ -4,7 +4,7 @@
 #include "fileIO.h"
 #include "operations.h"
 #include <conio.h>
-#define PATH "..\\set.txt"
+
 #include "validation.h"
 
 void clear_console(){
@@ -91,7 +91,7 @@ void solve(char* input){
 int main()
 {
 
-    Line *input =  process_input(PATH);
+    Line *input =  process_input();
 
     listOfSets = (Set*) malloc(sizeof(Set));
     listOfElements = (Element*) malloc(sizeof(Element));
@@ -101,14 +101,14 @@ int main()
 
 #ifndef DEBUG
     clear_console();
-    printf("   _____      _              _            _               \n"
-           "  / ____|    | |       /\\   | |          | |              \n"
-           " | (___   ___| |_     /  \\  | | __ _  ___| |__  _ __ __ _ \n"
-           "  \\___ \\ / _ \\ __|   / /\\ \\ | |/ _` |/ _ \\ '_ \\| '__/ _` |\n"
-           "  ____) |  __/ |_   / ____ \\| | (_| |  __/ |_) | | | (_| |\n"
-           " |_____/ \\___|\\__| /_/    \\_\\_|\\__, |\\___|_.__/|_|  \\__,_|\n"
-           "                                __/ |                     \n"
-           "                               |___/                      ");
+    printf("           _            _                        __    _____      _       \n"
+           "     /\\   | |          | |                      / _|  / ____|    | |      \n"
+           "    /  \\  | | __ _  ___| |__  _ __ __ _    ___ | |_  | (___   ___| |_ ___ \n"
+           "   / /\\ \\ | |/ _` |/ _ \\ '_ \\| '__/ _` |  / _ \\|  _|  \\___ \\ / _ \\ __/ __|\n"
+           "  / ____ \\| | (_| |  __/ |_) | | | (_| | | (_) | |    ____) |  __/ |_\\__ \\\n"
+           " /_/    \\_\\_|\\__, |\\___|_.__/|_|  \\__,_|  \\___/|_|   |_____/ \\___|\\__|___/\n"
+           "              __/ |                                                       \n"
+           "             |___/                                                        ");
 
 
     printf("\nPRESS ANY KEY TO START");

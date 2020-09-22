@@ -49,7 +49,7 @@ int check_operands(char *str){
 
     }
 
-    return 0;
+    return 1;
 }
 
 int contains_in_elements(char target) {

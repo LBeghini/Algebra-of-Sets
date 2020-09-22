@@ -7,17 +7,22 @@
 #include <string.h>
 #include "set.h"
 #include "fileIO.h"
+#define PRIMARY_PATH "..\\set.txt"
+#define SECONDARY_PATH "set.txt"
 
-char *parse(char *path) {
+char *parse() {
 
     char ch;
     FILE *fp;
 
-    fp = fopen(path, "r");
+    fp = fopen(PRIMARY_PATH, "r");
 
     if (fp == NULL) {
-        perror("Error while opening the file.\n");
-        exit(EXIT_FAILURE);
+        fp = fopen(SECONDARY_PATH, "r");
+        if (fp == NULL){
+            perror("Error while opening the file.\n");
+            exit(EXIT_FAILURE);
+        }
     }
 
     int numberOfChar = 0;
@@ -128,8 +133,8 @@ Line* get_numbers(char *s){
     return split(aux, ",");
 }
 
-Line *process_input(char *path){
-    char * file = parse(path);
+Line *process_input(){
+    char * file = parse();
     Line *head = split(file, "\n");
     remove_spaces_from_lines(head);
     return head;
