@@ -251,31 +251,44 @@ int is_subset(Set *A, Set *B) {
 }
 
 Set *unite(Set *A, Set *B) {
-    Set *result = (Set *) malloc(sizeof(Set));
-    result->head = A->head;
-    result->next = NULL;
-    result->next = NULL;
-    Node *head = result->head;
-    Node *current = B->head;
+    Node *result = NULL;
+    Node *head = NULL;
+    Node * current = A->head;
+    Set * unity = NULL;
 
-    while (result->head && result->head->next) {
-        result->head = result->head->next;
-    }
+    int first = 0;
+    int b = 0;
 
     while (current) {
+        if(first == 0){
+            result = (Node *) malloc(sizeof(Node));
+            result->value = current->value;
+            result->next = NULL;
+            current = current->next;
+            first = 1;
+            head = result;
+            continue;
+        }
+
         if (!belongs_to(current->value, head)) {
-            result->head->next = malloc(sizeof(Node));
-            result->head = result->head->next;
-            result->head->value = current->value;
-            result->head->next = NULL;
+            result->next = (Node*) malloc(sizeof(Node));
+            result = result->next;
+            result->value = current->value;
+            result->next = NULL;
+        }
+
+        if(current->next == NULL && b == 0){
+            current->next = B->head;
+            b = 1;
         }
 
         current = current->next;
-
     }
-    result->head = head;
 
-    return result;
+    unity = (Set*) malloc(sizeof(Set));
+    unity->head = head;
+    unity->next = NULL;
+    return unity;
 }
 
 Set *subtract(Set *A, Set *B) {
