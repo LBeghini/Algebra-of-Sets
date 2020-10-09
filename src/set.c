@@ -3,8 +3,6 @@
 //
 
 #include "operations.h"
-#include "set.h"
-#include "global.h"
 
 
 void populate(Set *empty, Line *charNumbers) {

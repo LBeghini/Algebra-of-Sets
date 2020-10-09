@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "set.h"
 #include "fileIO.h"
 #define PRIMARY_PATH "..\\set.txt"
 #define SECONDARY_PATH "set.txt"

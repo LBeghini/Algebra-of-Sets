@@ -7,10 +7,6 @@
 #ifndef DISCRETE_FILEIO_H
 #define DISCRETE_FILEIO_H
 
-typedef struct Line{
-    char *value;
-    struct  Line *next;
-} Line;
 
 char *parse();
 Line * split(char * str, char *separator);

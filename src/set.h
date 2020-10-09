@@ -5,10 +5,15 @@
 #ifndef DISCRETE_SET_H
 #define DISCRETE_SET_H
 
-#include "fileIO.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+typedef struct Line{
+    char *value;
+    struct  Line *next;
+} Line;
+
 
 typedef struct Node {
     int value;

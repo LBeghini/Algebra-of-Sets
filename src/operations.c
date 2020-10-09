@@ -3,7 +3,6 @@
 //
 
 #include "operations.h"
-#include "set.h"
 
 Tree *prepare_operation_tree(char *str) {
 
