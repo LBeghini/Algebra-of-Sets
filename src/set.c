@@ -2,7 +2,7 @@
 // Created by Lavinia on 3/23/2020.
 //
 
-#include "operations.h"
+#include "set.h"
 
 
 void populate(Set *empty, Line *charNumbers) {

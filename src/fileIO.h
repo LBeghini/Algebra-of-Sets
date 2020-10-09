@@ -2,10 +2,16 @@
 // Created by Lavinia on 3/23/2020.
 //
 
-#include "set.h"
 
 #ifndef DISCRETE_FILEIO_H
 #define DISCRETE_FILEIO_H
+
+
+
+typedef struct Line{
+    char *value;
+    struct  Line *next;
+} Line;
 
 
 char *parse();

@@ -11,11 +11,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "fileIO.h"
 
-typedef struct Line{
-    char *value;
-    struct  Line *next;
-} Line;
+
 
 
 typedef struct Node {
