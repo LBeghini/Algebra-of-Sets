@@ -5,7 +5,7 @@
 #ifndef DISCRETE_VALIDATION_H
 #define DISCRETE_VALIDATION_H
 
-#include "global.h"
+#include "set.h"
 
 int check_operators(char *str);
 int check_operands(char *str);

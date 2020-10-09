@@ -5,6 +5,9 @@
 #ifndef DISCRETE_SET_H
 #define DISCRETE_SET_H
 
+#define OPERANDS "+*x<>-[(])"
+
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -31,6 +34,10 @@ typedef struct Element {
     char name;
     struct Element *next;
 } Element;
+
+Set *listOfSets;
+Element *listOfElements;
+
 
 Set *create_list_set(Set *head, Line *input);
 Element *create_list_element(Element *head, Line *input);

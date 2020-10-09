@@ -1,5 +1,4 @@
 #include "set.h"
-#include "global.h"
 #include <stdio.h>
 #include "fileIO.h"
 #include "operations.h"
