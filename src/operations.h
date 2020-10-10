@@ -7,9 +7,6 @@
 
 
 #include "set.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 
 typedef struct Tree {
     char *value;

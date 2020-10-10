@@ -6,9 +6,10 @@
 #define DISCRETE_GLOBAL_H
 
 #define OPERANDS "+*x<>-[(])"
+
 #include <string.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Node {
     int value;

@@ -8,7 +8,6 @@
 
 
 #include "fileIO.h"
-
 #include "global.h"
 
 Set *create_list_set(Set *head, Line *input);
