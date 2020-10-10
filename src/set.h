@@ -5,37 +5,11 @@
 #ifndef DISCRETE_SET_H
 #define DISCRETE_SET_H
 
-#define OPERANDS "+*x<>-[(])"
 
 
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "fileIO.h"
 
-
-
-
-typedef struct Node {
-    int value;
-    struct Node * next;
-} Node;
-
-typedef struct Set {
-    char name;
-    struct Node * head;
-    struct Set * next;
-} Set;
-
-typedef struct Element {
-    int value;
-    char name;
-    struct Element *next;
-} Element;
-
-Set *listOfSets;
-Element *listOfElements;
-
+#include "global.h"
 
 Set *create_list_set(Set *head, Line *input);
 Element *create_list_element(Element *head, Line *input);

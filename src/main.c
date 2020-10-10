@@ -1,6 +1,3 @@
-#include "set.h"
-#include <stdio.h>
-#include "fileIO.h"
 #include "operations.h"
 #include <conio.h>
 

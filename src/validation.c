@@ -4,6 +4,7 @@
 
 #include "validation.h"
 
+
 int validate(char *str) {
     if (is_odd((int)strlen(str)) && (int)strlen(str) > 1) {
         if(check_operators(str)){
