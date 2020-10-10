@@ -1,8 +1,6 @@
 #include "operations.h"
 #include <conio.h>
 
-#include "validation.h"
-
 void clear_console(){
 #if defined _WIN32
     system("cls");

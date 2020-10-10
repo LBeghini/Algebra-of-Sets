@@ -30,4 +30,8 @@ typedef struct Element {
 Set *listOfSets;
 Element *listOfElements;
 
+int validate(char *str);int contains_in_elements(char target);
+int is_powerset(char *str);
+int is_cartesian(char* input);
+
 #endif //DISCRETE_GLOBAL_H
